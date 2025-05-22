@@ -6,32 +6,28 @@
 #include <mutex>
 #include <iostream>
 
-namespace ImgixCuda
-{
+namespace ImgixCuda {
+
 #define ErrChk(ans) { checkCudaReturn((ans), __FILE__, __LINE__); }
 
-    static inline void checkCudaReturn(cudaError_t code, const char* file, int line, bool abort = false)
-    {
-        if (code != cudaSuccess)
-        {
+    static inline void checkCudaReturn(cudaError_t code, const char* file, int line, bool abort = false) {
+        if (code != cudaSuccess) {
             char errorMessage[500];
             sprintf(errorMessage, "Cuda Error: %s, FILE: %s, LINE: %d.\n", cudaGetErrorString(code), file, line);
             std::cerr << errorMessage << std::endl;
-            if (abort)
-            {
+            if (abort) {
                 exit(code); 
             }
-            else
-            { throw std::domain_error(errorMessage); }
+            else { 
+                throw std::domain_error(errorMessage); 
+            }
         }
     }
 
     #define ErrReturn(status) { if(status != cudaSuccess) return status;}
 
-    __host__ __device__ inline void cudaAssert(bool res, const char* file, int line, const char* errorMsg = "")
-    {
-        if (!res)
-        {
+    __host__ __device__ inline void cudaAssert(bool res, const char* file, int line, const char* errorMsg = "") {
+        if (!res) {
             printf("cudaAssert: %s %d, Error Message: %s\n", file, line, errorMsg);
 #if defined(__CUDA_ARCH__)
             printf("%s\n", errorMsg);
@@ -45,29 +41,47 @@ namespace ImgixCuda
 #define cudaReleaseAssert(res) { cudaAssert((res), __FILE__, __LINE__, ("")); }
 #define cudaReleaseAssert2(res, errorMsg) { cudaAssert((res), __FILE__, __LINE__, (errorMsg)); }
 
-    struct gpu_stats
-    {
-        unsigned int temperature; // gpu temperature celsius
-        unsigned int utilization_gpu; // gpu core utilization in percentage
-        unsigned int utilization_mem; // gpu memory utilization in percentage
+    struct gpu_stats {
+        unsigned int temperature;           // GPU temperature in Celsius
+        unsigned int utilization_gpu;       // GPU core utilization in percentage
+        unsigned int utilization_mem;       // GPU memory utilization in percentage
+        unsigned int utilization_encoder;   // GPU encoder utilization in percentage
+        unsigned int utilization_decoder;   // GPU decoder utilization in percentage
+        unsigned int utilization_jpg;       // GPU JPG utilization in percentage
 
-        gpu_stats() : temperature(0), utilization_gpu(0), utilization_mem(0)
+        // Default constructor
+        gpu_stats()
+            : temperature(0), utilization_gpu(0), utilization_mem(0),
+            utilization_encoder(0), utilization_decoder(0), utilization_jpg(0)
         { }
-        gpu_stats(unsigned int t, unsigned int ug, unsigned int um)
-            : temperature(t), utilization_gpu(ug), utilization_mem(um)
+
+        // Constructor with main utilization values
+        gpu_stats(unsigned int t, unsigned int ug, unsigned int um,
+                unsigned int ue = 0, unsigned int ud = 0, unsigned int uj = 0)
+            : temperature(t), utilization_gpu(ug), utilization_mem(um),
+            utilization_encoder(ue), utilization_decoder(ud), utilization_jpg(uj)
         { }
-        gpu_stats& operator=(const gpu_stats& other)
-        {
-            temperature = other.temperature;
-            utilization_gpu = other.utilization_gpu;
-            utilization_mem = other.utilization_mem;
+
+        gpu_stats(const gpu_stats&) = default;
+        gpu_stats(gpu_stats&&) = default;
+        gpu_stats& operator=(gpu_stats&&) = default;
+
+        // Copy assignment operator
+        gpu_stats& operator=(const gpu_stats& other) {
+            if (this != &other) {
+                temperature = other.temperature;
+                utilization_gpu = other.utilization_gpu;
+                utilization_mem = other.utilization_mem;
+                utilization_encoder = other.utilization_encoder;
+                utilization_decoder = other.utilization_decoder;
+                utilization_jpg = other.utilization_jpg;
+            }
             return *this;
         }
     };
 
     // this class is Singleton design and only run constructor, init and destructor once.
-    class SingletonCuda
-    {
+    class SingletonCuda {
     private:
         nvmlDevice_t _nvmlDevice;
         const bool _firstRun = true;

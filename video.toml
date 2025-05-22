@@ -1,0 +1,77 @@
+["video/short-landscape.mp4?fm=mp4&video-codec=av1&video-bitrate=.1k"]
+headers = { 'X-IXSource-Capabilities' = '{ "painter_video": true }' }
+
+["video/short-landscape.mp4?fm=mp4&video-codec=h265&video-bitrate=5M&w=500"]
+headers = { 'X-IXSource-Capabilities' = '{ "painter_video": true }' }
+
+["video/big-buck-bunny.flv?fm=mp4&video-codec=h265&video-bitrate=5M&w=500&video-clip-start=2"]
+headers = { 'X-IXSource-Capabilities' = '{ "painter_video": true }' }
+
+["video/landscape-2k.mp4?fm=mp4&q=5"]
+headers = { 'X-IXSource-Capabilities' = '{ "painter_video": true }' }
+
+["video/landscape-2k.mp4?fm=mp4&q=15"]
+headers = { 'X-IXSource-Capabilities' = '{ "painter_video": true }' }
+
+["video/landscape-2k.mp4?fm=mp4&video-codec=h265&q=15"]
+headers = { 'X-IXSource-Capabilities' = '{ "painter_video": true }' }
+
+["video/landscape-2k.mp4?fm=mp4&video-codec=h265&q=85"]
+headers = { 'X-IXSource-Capabilities' = '{ "painter_video": true }' }
+
+["video/landscape-2k.mp4?fm=mp4&video-codec=h265&q=95"]
+headers = { 'X-IXSource-Capabilities' = '{ "painter_video": true }' }
+
+["video/landscape-2k.mp4?fm=mp4&video-codec=h265&q=98"]
+headers = { 'X-IXSource-Capabilities' = '{ "painter_video": true }' }
+
+["video/landscape-2k.mp4?fm=mp4&video-codec=h265&q=99"]
+headers = { 'X-IXSource-Capabilities' = '{ "painter_video": true }' }
+
+["video/landscape-2k.mp4?fm=mp4&video-codec=h265&q=100"]
+headers = { 'X-IXSource-Capabilities' = '{ "painter_video": true }' }
+
+["video/landscape-2k.mp4?fm=mp4&q=100"]
+headers = { 'X-IXSource-Capabilities' = '{ "painter_video": true }' }
+
+["video/landscape-2k.mp4?fm=mp4&q=55"]
+headers = { 'X-IXSource-Capabilities' = '{ "painter_video": true }' }
+
+["video/landscape-vertical-1080p.mp4?fm=mp4&q=95"]
+headers = { 'X-IXSource-Capabilities' = '{ "painter_video": true }' }
+
+["video/koala-eating-4k.mp4?fm=mp4&q=25"]
+headers = { 'X-IXSource-Capabilities' = '{ "painter_video": true }' }
+
+["video/koala-eating-4k.mp4?fm=mp4&video-codec=h265&q=35"]
+headers = { 'X-IXSource-Capabilities' = '{ "painter_video": true }' }
+
+["video/koala-eating-4k.mp4?fm=mp4&video-codec=h265&q=45"]
+headers = { 'X-IXSource-Capabilities' = '{ "painter_video": true }' }
+
+["video/koala-eating-4k.mp4?fm=mp4&video-codec=h265&q=55"]
+headers = { 'X-IXSource-Capabilities' = '{ "painter_video": true }' }
+
+["video/koala-eating-4k.mp4?fm=mp4&video-codec=h265&q=65"]
+headers = { 'X-IXSource-Capabilities' = '{ "painter_video": true }' }
+
+["video/koala-eating-4k.mp4?fm=mp4&video-codec=h265&q=75"]
+headers = { 'X-IXSource-Capabilities' = '{ "painter_video": true }' }
+
+["video/koala-eating-4k.mp4?fm=mp4&video-codec=h265&q=85"]
+headers = { 'X-IXSource-Capabilities' = '{ "painter_video": true }' }
+
+["video/koala-eating-4k.mp4?fm=mp4&video-codec=h265&q=95"]
+headers = { 'X-IXSource-Capabilities' = '{ "painter_video": true }' }
+
+["video/koala-eating-4k.mp4?fm=mp4&q=75"]
+headers = { 'X-IXSource-Capabilities' = '{ "painter_video": true }' }
+
+["video/kids-play-4k24p.mp4?fm=mp4&q=25"]
+headers = { 'X-IXSource-Capabilities' = '{ "painter_video": true }' }
+
+["video/kids-play-4k24p.mp4?fm=mp4&q=75"]
+headers = { 'X-IXSource-Capabilities' = '{ "painter_video": true }' }
+
+["video/h264-10-bit.mov?fm=mp4&video-bitrate=15M&w=1280"]
+headers = { 'X-IXSource-Capabilities' = '{ "painter_video": true }' }

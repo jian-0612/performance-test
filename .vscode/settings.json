@@ -60,6 +60,11 @@
         "typeinfo": "cpp",
         "variant": "cpp",
         "format": "cpp",
-        "__nullptr": "cpp"
+        "__nullptr": "cpp",
+        "future": "cpp",
+        "shared_mutex": "cpp",
+        "cinttypes": "cpp",
+        "regex": "cpp",
+        "fstream": "cpp"
     }
 }
