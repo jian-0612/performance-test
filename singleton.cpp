@@ -92,6 +92,31 @@ std::string Singleton::GetStatsInfo() {
     return ss.str();
 }
 
+void Singleton::set_stats_map(std::unordered_map<std::string, VarValue>& map) {
+    mutex.lock();
+    HardwareStats avg = hardware_aggregator.getAverage();
+    HardwareStats max = hardware_aggregator.getMax();
+    mutex.unlock();
+    map.clear();
+    map.insert(std::make_pair("cpu_avg", avg.cpu_usage));
+    map.insert(std::make_pair("ram_avg", avg.ram_usage));
+    map.insert(std::make_pair("gpu_avg", avg.gpu_usage));
+    map.insert(std::make_pair("gpu_ram_avg", avg.gpu_ram_usage));
+    map.insert(std::make_pair("gpu_encoder_avg", avg.gpu_encoder_usage));
+    map.insert(std::make_pair("gpu_decoder_avg", avg.gpu_decoder_usage));
+    map.insert(std::make_pair("gpu_jpg_avg", avg.gpu_jpg_usage));
+    map.insert(std::make_pair("gpu_temperature_avg", avg.gpu_temperature));
+
+    map.insert(std::make_pair("cpu_max", max.cpu_usage));
+    map.insert(std::make_pair("ram_max", max.ram_usage));
+    map.insert(std::make_pair("gpu_max", max.gpu_usage));
+    map.insert(std::make_pair("gpu_ram_max", max.gpu_ram_usage));
+    map.insert(std::make_pair("gpu_encoder_max", max.gpu_encoder_usage));
+    map.insert(std::make_pair("gpu_decoder_max", max.gpu_decoder_usage));
+    map.insert(std::make_pair("gpu_jpg_max", max.gpu_jpg_usage));
+    map.insert(std::make_pair("gpu_temperature_max", max.gpu_temperature));
+}
+
 void Singleton::ResetStats() {
     mutex.lock();
     hardware_aggregator.reset();

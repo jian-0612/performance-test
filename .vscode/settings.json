@@ -65,6 +65,13 @@
         "shared_mutex": "cpp",
         "cinttypes": "cpp",
         "regex": "cpp",
-        "fstream": "cpp"
+        "fstream": "cpp",
+        "any": "cpp",
+        "codecvt": "cpp",
+        "forward_list": "cpp",
+        "map": "cpp",
+        "source_location": "cpp",
+        "ranges": "cpp",
+        "valarray": "cpp"
     }
 }

@@ -1,8 +1,13 @@
 #pragma once
 #include <shared_mutex>
 #include <future>
+#include <unordered_map>
+#include <variant>
 
 namespace Imgix {
+    // Variant to hold different types of variable values
+    using VarValue = std::variant<double, bool, std::string>;
+
     constexpr double Double_Max = std::numeric_limits<double>::infinity();
     constexpr double Double_Min = -std::numeric_limits<double>::infinity();
     constexpr unsigned long long Ull_Max = std::numeric_limits<long>::max();
@@ -160,6 +165,7 @@ namespace Imgix {
         Singleton(Singleton const&) = delete;   // Don't Implement, don't allow construct by reference
         void operator=(Singleton const&) = delete;    // Don't implement, don't allow assign
         std::string GetStatsInfo();
+        void set_stats_map(std::unordered_map<std::string, VarValue>& map);
         void ResetStats();
         ~Singleton();
     };

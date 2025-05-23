@@ -15,7 +15,7 @@ CXXLIBFLAGS= -lz -lpthread -fPIC -lstatgrab -lcurl
 OUT_DIR_ROOT= bin/x64/
 OUT_DIR :=
 CUDAOBJS = cuda_base.o
-OBJS:= $(OUT_DIR)singleton.o $(OUT_DIR)read_config.o $(OUT_DIR)http_request.o
+OBJS:= $(OUT_DIR)singleton.o $(OUT_DIR)read_config.o $(OUT_DIR)http_request.o $(OUT_DIR)performance_test.o
 EXEC:= performance-test
 
 Release: NVCCFLAGS += -Xcompiler -O2
@@ -25,7 +25,7 @@ Release: performance-test
 Release: OUT_DIR :=$(OUT_DIR_ROOT)Release/
 Release: EXEC:= $(OUT_DIR)performance-test
 Release: CUDAOBJS:= $(OUT_DIR)cuda_base.o
-Release: OBJS:= $(OUT_DIR)singleton.o $(OUT_DIR)read_config.o $(OUT_DIR)http_request.o
+Release: OBJS:= $(OUT_DIR)singleton.o $(OUT_DIR)read_config.o $(OUT_DIR)http_request.o $(OUT_DIR)performance_test.o
 
 Debug: NVCCFLAGS += -g -Xcompiler -O0
 Debug: NVCCLINKFLAGS += -g -Xcompiler -O0
@@ -34,7 +34,7 @@ Debug: performance-test
 Debug: OUT_DIR :=$(OUT_DIR_ROOT)Debug/
 Debug: EXEC:= $(OUT_DIR)performance-test
 Debug: CUDAOBJS:= $(OUT_DIR)cuda_base.o
-Debug: OBJS:= $(OUT_DIR)singleton.o $(OUT_DIR)read_config.o $(OUT_DIR)http_request.o
+Debug: OBJS:= $(OUT_DIR)singleton.o $(OUT_DIR)read_config.o $(OUT_DIR)http_request.o $(OUT_DIR)performance_test.o
 
 MKDIR_P = mkdir -p
 
@@ -42,6 +42,9 @@ all: $(EXEC)
 
 $(EXEC): $(CUDAOBJS) $(OBJS) cuda_link.o main.cpp
 	$(CXX) $(CUDAINCLUDE) $(CXXFLAGS) $(OPTFLAGS) $(CUDAOBJS) $(OUT_DIR)cuda_link.o $(OBJS) main.cpp -o $(EXEC) $(CUDALIB) $(CXXLIBFLAGS)
+
+$(OUT_DIR)performance_test.o : performance_test.cpp performance_test.h
+	$(CXX) $(CXXFLAGS) $(OPTFLAGS) -c performance_test.cpp -o $(OUT_DIR)performance_test.o -fPIC
 
 $(OUT_DIR)singleton.o : singleton.cpp singleton.h
 	$(CXX) $(CUDAINCLUDE) $(CXXFLAGS) $(OPTFLAGS) -c singleton.cpp -o $(OUT_DIR)singleton.o -fPIC -lstatgrab
