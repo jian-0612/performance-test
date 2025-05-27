@@ -1,12 +1,14 @@
-#include "performance_test.h"
+#include "../include/performance_test.h"
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <unordered_set>
 #include <unordered_map>
 #include <cmath>
+#include <filesystem>
 
 using namespace Imgix;
-
+namespace fs = std::filesystem;
 
 void Imgix::from_json(const json& j, TestConfig& config) {
     j.at("name").get_to(config.name);
@@ -144,7 +146,7 @@ std::vector<T> whenAll(std::vector<std::future<T>>& futures) {
     return results;
 }
 
-bool doWork(const UrlEntry& url, const std::string& path, const HttpRequest& req) {
+bool url_request(const UrlEntry& url, const std::string& path, const HttpRequest& req) {
     //std::cout << url.url << " ## " << path << std::endl;
     if (req.download_to_file(url, path)) {
         //std::cout << "download_to_file succeed!" << std::endl;
@@ -158,7 +160,7 @@ bool doWork(const UrlEntry& url, const std::string& path, const HttpRequest& req
 bool PerformanceTest::benchmark_async(const std::vector<std::pair<UrlEntry, std::string>>& url_file_pairs) {
     std::vector<std::future<bool>> futures;
     for (const auto& [a, b] : url_file_pairs) {
-        futures.emplace_back(std::async(std::launch::async, doWork, a, b, http_req));
+        futures.emplace_back(std::async(std::launch::async, url_request, a, b, http_req));
     }
     auto results = whenAll(futures);
     return std::all_of(results.begin(), results.end(), [](bool b){ return b; });
@@ -224,10 +226,48 @@ bool PerformanceTest::check_benchmark_result(const std::unordered_map<std::strin
     return true;
 }
 
+bool PerformanceTest::delete_all_files(const std::string& target_dir) {
+    if (!fs::exists(target_dir) || !fs::is_directory(target_dir)) {
+        std::cerr << "Error: '" << target_dir << "' is not a valid directory.\n";
+        return false;
+    }
+    try {
+        for (const auto& entry : fs::directory_iterator(target_dir)) {
+            if (fs::is_regular_file(entry.path())) {
+                //std::cout << "Deleting: " << entry.path() << "\n";
+                fs::remove(entry.path());
+            }
+        }
+        //std::cout << "Done.\n";
+    } catch (const fs::filesystem_error& e) {
+        std::cerr << "Filesystem error: " << e.what() << "\n";
+        return false;
+    }
+    return true;
+}
+
+std::string get_parent_path(const std::string& file_path) {
+    fs::path pathObj(file_path);
+    fs::path dir = pathObj.parent_path();
+    return dir.string();
+}
+
+std::string get_now_as_filename() {
+    auto t = std::time(nullptr);
+    std::tm tm{};
+    localtime_r(&t, &tm);
+    std::ostringstream oss;
+    oss << "report_"
+        << std::put_time(&tm, "%Y-%m-%d_%H-%M-%S")
+        << ".txt";
+    return oss.str();
+}
+
 void PerformanceTest::run_all_tests() {
-    test_report_output_file.open("./output/report.txt");
+    test_report_output_file.open("./reports/" + get_now_as_filename());
     bool res = true;
     Singleton& single = Singleton::GetInstance();
+    std::unordered_set<std::string> output_directories;
     for (TestConfig tc : configs) {
         test_report_output_file << "Running " << tc.name << " test:\n";
         std::vector<UrlEntry> vec = read_config.read_config_file(tc.test_file_path);
@@ -236,6 +276,7 @@ void PerformanceTest::run_all_tests() {
             std::string file_path = "./output/" + vec[i].url;
             vec[i].url = "http://localhost:8001/http://localhost:8889/" + vec[i].url;
             url_file_pairs.push_back(std::make_pair(vec[i], file_path));
+            output_directories.insert(get_parent_path(file_path));
         }
         single.ResetStats();
         unsigned int render_count = 0;
@@ -270,6 +311,9 @@ void PerformanceTest::run_all_tests() {
         test_report_output_file << "test failed.\n";
     } else {
         test_report_output_file << "All test passed.\n";
+    }
+    for (std::string i : output_directories) {
+        delete_all_files(i);
     }
     test_report_output_file.close();
 }

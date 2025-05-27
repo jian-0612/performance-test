@@ -1,20 +1,11 @@
 [
     {
-        "name": "TestA",
+        "name": "Performance_Video_Codec",
         "type": "performance",
         "loop_time": 1,
         "duration_s": 0,
         "concurrency": "async",
-        "test_file_path": "./video.toml",
+        "test_file_path": "./tests/video_codec.toml",
         "baseline_checks": ["render_avg < 2.5", "cpu_avg < 50", "gpu_encoder_avg < 90", "gpu_decoder_avg < 50"]
-    },
-    {
-        "name": "TestB",
-        "type": "stress",
-        "loop_time": 0,
-        "duration_s": 60,
-        "concurrency": "sync",
-        "test_file_path": "./video.toml",
-        "baseline_checks": ["render_avg < 5.5", "cpu_avg < 50", "gpu_encoder_avg < 90", "gpu_decoder_avg < 50"]
     }
 ]

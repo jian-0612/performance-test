@@ -1,4 +1,4 @@
-#include "read_config.h"
+#include "../include/read_config.h"
 #include <iostream>
 #include <fstream>
 

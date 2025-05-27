@@ -1,5 +1,5 @@
-#include "singleton.h"
-#include "cuda_base.cuh"
+#include "../include/singleton.h"
+#include "../include/cuda_base.cuh"
 #include <iostream>
 #include <sstream>
 #include <iomanip>

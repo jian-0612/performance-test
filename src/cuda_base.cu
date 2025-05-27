@@ -1,4 +1,4 @@
-#include "cuda_base.cuh"
+#include "../include/cuda_base.cuh"
 #include <iostream>
 #include <sstream>
 

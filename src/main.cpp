@@ -1,4 +1,4 @@
-#include "performance_test.h"
+#include "../include/performance_test.h"
 
 using namespace Imgix;
 

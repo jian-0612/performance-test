@@ -50,5 +50,6 @@ namespace Imgix {
         std::string to_string_configs() const;
         static bool evaluate_bool_expression(const std::string& expr, 
             const std::unordered_map<std::string, VarValue>& context);
+        static bool delete_all_files(const std::string& target_dir);
     };
 }
